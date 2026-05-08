@@ -235,14 +235,6 @@ button{font-family:inherit;cursor:pointer;border-radius:8px;font-size:13px;paddi
       <label><input type="checkbox" id="f-wh" onchange="applyFilters()"/> ♿ Wheelchair</label>
       <label><input type="checkbox" id="f-ki" onchange="applyFilters()"/> 👶 Kids</label>
       <label><input type="checkbox" id="f-ev" onchange="applyFilters()"/> 📅 Events</label>
-      <select id="f-sort" onchange="applyFilters()">
-        <option value="featured">Sort by: Featured first</option>
-        <option value="rating">⭐ Highest rated</option>
-        <option value="reviews">💬 Most reviews</option>
-        <option value="newest">🆕 Newest listing</option>
-        <option value="oldest">🏛️ Oldest church</option>
-        <option value="az">🔤 A–Z</option>
-      </select>
       <button class="clear-btn" onclick="clearFilters()">Clear all</button>
     </div>
   </div>
@@ -569,7 +561,7 @@ function faithChanged(){
   applyFilters();
 }
 function clearFilters(){
-  ['f-faith','f-denom','f-age','f-svc','f-lang','f-web','f-sort'].forEach(id=>$(id).selectedIndex=0);
+  ['f-faith','f-denom','f-age','f-svc','f-lang','f-web'].forEach(id=>$(id).selectedIndex=0);
   ['f-wh','f-ki','f-ev'].forEach(id=>$(id).checked=false);
   $('search-input').value='';applyFilters();
 }
@@ -578,7 +570,6 @@ function applyFilters(){
   const faith=$('f-faith').value,denom=$('f-denom').value,age=$('f-age').value;
   const svc=$('f-svc').value,lang=$('f-lang').value,web=$('f-web').value;
   const wh=$('f-wh').checked,ki=$('f-ki').checked,ev=$('f-ev').checked;
-  const sort=$('f-sort').value;
   filtered=allChurches.filter(c=>{
     if(q&&!c.name?.toLowerCase().includes(q)&&!c.address?.toLowerCase().includes(q)&&!c.denom?.toLowerCase().includes(q))return false;
     if(faith&&c.faith!==faith)return false;if(denom&&c.denom!==denom)return false;
@@ -586,14 +577,6 @@ function applyFilters(){
     if(lang&&c.language!==lang)return false;if(web==='y'&&!c.website)return false;
     if(web==='n'&&c.website)return false;if(wh&&!c.wheelchair)return false;
     if(ki&&!c.kids)return false;if(ev&&!c.events)return false;return true;
-  }).sort((a,b)=>{
-    if(sort==='featured')return (b.featured-a.featured)||(b.rating-a.rating);
-    if(sort==='rating')return b.rating-a.rating;
-    if(sort==='reviews')return (b.review_count||0)-(a.review_count||0);
-    if(sort==='newest')return new Date(b.created_at||0)-new Date(a.created_at||0);
-    if(sort==='oldest')return (a.founded||9999)-(b.founded||9999);
-    if(sort==='az')return a.name.localeCompare(b.name);
-    return 0;
   });
   renderList();renderMap();
 }
