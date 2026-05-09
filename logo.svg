@@ -1,0 +1,14 @@
+<svg width="480" height="140" viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg">
+  <rect width="480" height="140" rx="12" fill="#4a1a7a"/>
+  <path d="M55 18 C38 18 22 34 22 52 C22 70 55 110 55 110 C55 110 88 70 88 52 C88 34 72 18 55 18 Z" fill="#6b2fa0"/>
+  <circle cx="55" cy="52" r="20" fill="#8b4fc8"/>
+  <rect x="50" y="36" width="10" height="32" rx="2" fill="#f5e090"/>
+  <rect x="40" y="46" width="30" height="10" rx="2" fill="#f5e090"/>
+  <circle cx="55" cy="107" r="4" fill="#d4af37"/>
+  <text x="105" y="72" font-family="system-ui,sans-serif" font-size="52" font-weight="800" fill="#ffffff">Faith</text>
+  <text x="268" y="72" font-family="system-ui,sans-serif" font-size="52" font-weight="800" fill="#f5e090">Near</text>
+  <text x="105" y="98" font-family="system-ui,sans-serif" font-size="15" fill="rgba(255,255,255,0.75)">Find your faith community</text>
+  <rect x="105" y="106" width="340" height="2" rx="1" fill="#d4af37"/>
+  <circle cx="100" cy="107" r="4" fill="#d4af37"/>
+  <circle cx="450" cy="107" r="4" fill="#d4af37"/>
+</svg>
