@@ -367,7 +367,7 @@ const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const DENOMS={Christian:["Baptist","Methodist","Non-denominational","Presbyterian","Lutheran","Pentecostal","Anglican","Adventist","Apostolic","Evangelical"],Catholic:["Roman Catholic","Byzantine Catholic","Maronite","Other Catholic"],Orthodox:["Greek Orthodox","Russian Orthodox","Coptic Orthodox","Serbian Orthodox"],Jewish:["Reform","Conservative","Orthodox","Reconstructionist","Messianic"],Muslim:["Sunni","Shia","Sufi","Ahmadiyya"],Buddhist:["Theravada","Mahayana","Zen","Tibetan"],Hindu:["Vaishnava","Shaiva","Shakta","Other"],Other:["Unitarian","Baha'i","Sikh","Quaker","Other"]};
 
-let allChurches=[],filtered=[],activeId=null,currentUser=null,selectedPlan='free',mapsApiKey='';
+let allChurches=[],filtered=[],activeId=null,currentUser=null,selectedPlan='free',mapsApiKey='AIzaSyCqzjv0KgJq5F5AVPeiONxC-JIL4Us-ego';
 const $=id=>document.getElementById(id);
 const ss=n=>n>0?'★'.repeat(Math.round(n))+'☆'.repeat(5-Math.round(n)):'—';
 function toast(m){const el=$('toast');el.textContent=m;el.style.display='block';setTimeout(()=>el.style.display='none',2800)}
@@ -688,6 +688,11 @@ function renderNav(){
   sb.auth.onAuthStateChange((_,session)=>{currentUser=session?.user||null;renderNav()});
   renderNav();
   await loadChurches();
+  // Auto-activate Google Maps
+  const wrap=$('map-wrap');
+  wrap.style.height='340px';
+  wrap.innerHTML=`<iframe class="gmframe" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCqzjv0KgJq5F5AVPeiONxC-JIL4Us-ego&q=churches+near+me&zoom=13" allowfullscreen></iframe>`;
+  $('api-banner').style.display='none';
 })();
 </script>
 </body>
