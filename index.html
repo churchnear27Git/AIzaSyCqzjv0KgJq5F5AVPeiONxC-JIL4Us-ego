@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>FaithNear — Find Your Faith Community</title>
 <meta name="description" content="Find any church, mosque, synagogue or faith community near you."/>
+<script src="/config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -165,7 +166,7 @@ button{font-family:inherit;cursor:pointer;border-radius:8px;font-size:13px;paddi
 
   <div class="api-banner" id="api-banner">
     <span>🗺️ Google Maps & Reviews API key:</span>
-    <input type="text" id="maps-key" placeholder="Paste … key here"/>
+    <input type="text" id="maps-key" placeholder="Paste AIzaSy… key here"/>
     <button class="bp bsm" onclick="activateMaps()">Activate</button>
     <button class="bsm" onclick="document.getElementById('api-banner').style.display='none'">✕</button>
   </div>
@@ -367,7 +368,7 @@ const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const DENOMS={Christian:["Baptist","Methodist","Non-denominational","Presbyterian","Lutheran","Pentecostal","Anglican","Adventist","Apostolic","Evangelical"],Catholic:["Roman Catholic","Byzantine Catholic","Maronite","Other Catholic"],Orthodox:["Greek Orthodox","Russian Orthodox","Coptic Orthodox","Serbian Orthodox"],Jewish:["Reform","Conservative","Orthodox","Reconstructionist","Messianic"],Muslim:["Sunni","Shia","Sufi","Ahmadiyya"],Buddhist:["Theravada","Mahayana","Zen","Tibetan"],Hindu:["Vaishnava","Shaiva","Shakta","Other"],Other:["Unitarian","Baha'i","Sikh","Quaker","Other"]};
 
-let allChurches=[],filtered=[],activeId=null,currentUser=null,selectedPlan='free',mapsApiKey=''
+let allChurches=[],filtered=[],activeId=null,currentUser=null,selectedPlan='free',mapsApiKey='AIzaSyCqzjv0KgJq5F5AVPeiONxC-JIL4Us-ego';
 const $=id=>document.getElementById(id);
 const ss=n=>n>0?'★'.repeat(Math.round(n))+'☆'.repeat(5-Math.round(n)):'—';
 function toast(m){const el=$('toast');el.textContent=m;el.style.display='block';setTimeout(()=>el.style.display='none',2800)}
@@ -691,7 +692,7 @@ function renderNav(){
   // Auto-activate Google Maps
   const wrap=$('map-wrap');
   wrap.style.height='340px';
-  wrap.innerHTML=`<iframe class="gmframe" src="https://www.google.com/maps/embed/v1/search?key=&q=churches+near+me&zoom=13" allowfullscreen></iframe>`;
+  wrap.innerHTML=`<iframe class="gmframe" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCqzjv0KgJq5F5AVPeiONxC-JIL4Us-ego&q=churches+near+me&zoom=13" allowfullscreen></iframe>`;
   $('api-banner').style.display='none';
 })();
 </script>
