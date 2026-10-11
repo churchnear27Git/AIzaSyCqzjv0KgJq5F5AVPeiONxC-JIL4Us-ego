@@ -689,7 +689,7 @@ function renderNav(){
   sb.auth.onAuthStateChange((_,session)=>{currentUser=session?.user||null;renderNav()});
   renderNav();
   await loadChurches();
-  // Auto-activate Google Maps
+  
  // Auto-activate Google Maps with user's real location
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(
