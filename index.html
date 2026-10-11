@@ -690,11 +690,27 @@ function renderNav(){
   renderNav();
   await loadChurches();
   // Auto-activate Google Maps
+ // Auto-activate Google Maps with user's real location
+if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      const lat=pos.coords.latitude;
+      const lng=pos.coords.longitude;
+      const wrap=$('map-wrap');
+      wrap.style.height='340px';
+      wrap.innerHTML=`<iframe class="gmframe" src="https://www.google.com/maps/embed/v1/search?key=${window.MAPS_KEY}&q=churches&center=${lat},${lng}&zoom=13" allowfullscreen></iframe>`;
+      $('api-banner').style.display='none';
+    },
+    ()=>{
+      const wrap=$('map-wrap');
+      wrap.style.height='340px';
+      wrap.innerHTML=`<iframe class="gmframe" src="https://www.google.com/maps/embed/v1/search?key=${window.MAPS_KEY}&q=churches&zoom=4" allowfullscreen></iframe>`;
+      $('api-banner').style.display='none';
+    }
+  );
+} else {
   const wrap=$('map-wrap');
   wrap.style.height='340px';
-  wrap.innerHTML=`<iframe class="gmframe" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCqzjv0KgJq5F5AVPeiONxC-JIL4Us-ego&q=churches+near+me&zoom=13" allowfullscreen></iframe>`;
+  wrap.innerHTML=`<iframe class="gmframe" src="https://www.google.com/maps/embed/v1/search?key=${window.MAPS_KEY}&q=churches&zoom=4" allowfullscreen></iframe>`;
   $('api-banner').style.display='none';
-})();
-</script>
-</body>
-</html>
+}
