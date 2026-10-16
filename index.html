@@ -203,6 +203,21 @@ button{font-family:inherit;cursor:pointer;border-radius:8px;font-size:13px;paddi
         <option value="oldest">🏛️ Oldest church</option>
         <option value="az">🔤 A–Z</option>
       </select>
+      <select id="f-ministry" onchange="applyFilters()">
+        <option value="">Any ministry</option>
+        <option value="youth">🧑‍🤝‍🧑 Youth Group</option>
+        <option value="marriage">💍 Marriage / Couples</option>
+        <option value="young_adults">🎓 Young Adults</option>
+        <option value="mens">🙏 Men's Group</option>
+        <option value="womens">💜 Women's Group</option>
+        <option value="seniors">👴 Senior Ministry</option>
+        <option value="choir">🎵 Choir / Worship</option>
+        <option value="missions">🌍 Missions / Outreach</option>
+        <option value="sports">⚽ Sports Ministry</option>
+        <option value="grief">🕊️ Grief Support</option>
+        <option value="recovery">💪 Recovery / AA</option>
+        <option value="bilingual">🌐 Bilingual Services</option>
+      </select>
       <label><input type="checkbox" id="f-wh" onchange="applyFilters()"/> ♿ Wheelchair</label>
       <label><input type="checkbox" id="f-ki" onchange="applyFilters()"/> 👶 Kids</label>
       <label><input type="checkbox" id="f-ev" onchange="applyFilters()"/> 📅 Events</label>
@@ -495,7 +510,9 @@ async function showDetail(id) {
       ${c.wheelchair ? '<span class="badge bg">♿ Wheelchair</span>' : ''}
       ${c.kids ? '<span class="badge bg">👶 Kids class</span>' : ''}
       ${c.events ? '<span class="badge bb">📅 Events</span>' : ''}
+      ${c.ministries ? c.ministries.split(',').map(m => `<span class="badge" style="background:#f0e8ff;color:#6b2fa0">${ministryLabel(m.trim())}</span>`).join('') : ''}
     </div>
+    ${c.ministries ? `<div style="background:#f8f4ff;border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:12px;border:1px solid #e0d4f7"><strong>Ministries & Groups:</strong> ${c.ministries.split(',').map(m => ministryLabel(m.trim())).join(' · ')}</div>` : ''}
     ${c.events ? `<div style="background:var(--sl3);border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:12px;border:1px solid var(--sl2)"><strong>Upcoming:</strong> ${c.events}</div>` : ''}
     ${!c.claimed ? `<div style="background:#faf5ff;border:1px solid var(--pr3);border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:12px">Are you a leader here? <a href="#" onclick="showPage('claim');return false" style="color:var(--pr3)">Claim this listing →</a></div>` : ''}
     ${gRevs.length ? `
@@ -569,9 +586,15 @@ function faithChanged() {
 
 function clearFilters() {
   ['f-faith','f-denom','f-age','f-svc','f-lang','f-web','f-sort'].forEach(id => $(id).selectedIndex = 0);
+  $('f-ministry').value = '';
   ['f-wh','f-ki','f-ev'].forEach(id => $(id).checked = false);
   $('search-input').value = '';
   applyFilters();
+}
+
+function ministryLabel(key) {
+  const map = {youth:'🧑‍🤝‍🧑 Youth',marriage:'💍 Marriage',young_adults:'🎓 Young Adults',mens:"🙏 Men's",womens:"💜 Women's",seniors:'👴 Seniors',choir:'🎵 Choir',missions:'🌍 Missions',sports:'⚽ Sports',grief:'🕊️ Grief',recovery:'💪 Recovery',bilingual:'🌐 Bilingual'};
+  return map[key] || key;
 }
 
 function applyFilters() {
@@ -579,6 +602,7 @@ function applyFilters() {
   const faith = $('f-faith').value, denom = $('f-denom').value, age = $('f-age').value;
   const svc = $('f-svc').value, lang = $('f-lang').value, web = $('f-web').value;
   const wh = $('f-wh').checked, ki = $('f-ki').checked, ev = $('f-ev').checked;
+  const ministry = $('f-ministry').value;
   const sort = $('f-sort').value;
   filtered = allChurches.filter(c => {
     if (q && !c.name?.toLowerCase().includes(q) && !c.address?.toLowerCase().includes(q) && !c.denom?.toLowerCase().includes(q)) return false;
@@ -592,6 +616,7 @@ function applyFilters() {
     if (wh && !c.wheelchair) return false;
     if (ki && !c.kids) return false;
     if (ev && !c.events) return false;
+    if (ministry && !(c.ministries || '').includes(ministry)) return false;
     return true;
   }).sort((a, b) => {
     if (sort === 'featured') return (b.featured - a.featured) || (b.rating - a.rating);
@@ -617,6 +642,7 @@ function renderList() {
         ${c.wheelchair ? '<span class="tag">♿</span>' : ''}
         ${c.kids ? '<span class="tag">👶</span>' : ''}
         ${c.events ? '<span class="tag">📅</span>' : ''}
+        ${c.ministries ? c.ministries.split(',').slice(0,2).map(m => `<span class="tag" style="background:#f0e8ff;color:#6b2fa0">${ministryLabel(m.trim())}</span>`).join('') : ''}
         ${c.claimed ? '<span class="tag" style="background:#e8f5e9;color:#1a6b35">✓ Claimed</span>' : ''}
         ${c.review_count > 0 ? `<span class="tag">💬 ${c.review_count}</span>` : ''}
       </div>
